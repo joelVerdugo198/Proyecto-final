@@ -1,0 +1,40 @@
+[
+
+	{
+		"title" : "LIBRO 1",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "6070749006",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "libro1.png",
+		"category_id" : 1
+	},
+	{
+		"title" : "LIBRO 2",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "6070749007",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "libro2.png",
+		"category_id" : 2
+	},
+	{
+		"title" : "LIBRO 3",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "6070749008",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "libro3.png",
+		"category_id" : 3
+	}
+
+]
