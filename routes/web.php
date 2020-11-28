@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -35,10 +34,16 @@ Route::group(['middleware' => ['auth']],function(){
 
 	//BOOKS
 	Route::get('/books', 'BookController@index');
+
 	Route::post('/books', 'BookController@store');
+	
+
+	Route::put('/books', 'BookController@update');
+
+	Route::delete('/books/{book}', 'BookController@destroy');
 
 	// CATEGORIES
-	Route::get('/categories', 'CategoryController@index');
+	Route::get('/categories', 'CategoryController@index')->name('categories')->middleware('permission:crud categories');
 
 	Route::post('/categories', 'CategoryController@store');
 

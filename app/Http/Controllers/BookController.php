@@ -6,6 +6,8 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class BookController extends Controller
 {
     /**
@@ -40,17 +42,24 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        if($book = Book::create($request->all())){
-            if ($request->hasFile('cover')) {
-                $file = $request->file('cover');
-                $fileName = 'book_cover'.$book->id.'.'.$file->getClientOriginalExtension();
-                $path = $request->file('cover')->storeAs('img/books',$fileName);
+
+       
+            if($book = Book::create($request->all())){
+                if ($request->hasFile('cover')) {
+                    $file = $request->file('cover');
+                    $fileName = 'book_cover'.$book->id.'.'.$file->getClientOriginalExtension();
+                    $path = $request->file('cover')->storeAs('img/books',$fileName);
+                }
+                $book->cover = $fileName;
+                $book->save();
+                return redirect()->back();
             }
-            $book->cover = $fileName;
-            $book->save();
-            return redirect()->back();
-        }
-        return  redirect()->back();
+        
+            return  redirect()->back()->with('error', 'No tiene permiso');
+        
+
+       
+        
     }
 
     /**
@@ -82,9 +91,23 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(Request $request)
     {
-        //
+        $book = Book::find($request->id);
+        if ($book) {
+            if ($book->update($request->all())) {
+                if ($request->hasFile('cover')) {
+                    $file = $request->file('cover');
+                    $fileName = 'book_cover'.$book->id.'.'.$file->getClientOriginalExtension();
+                    $path = $request->file('cover')->storeAs('img/books',$fileName);
+                     $book->cover = $fileName;
+                }
+               
+                $book->save();
+                return redirect()->back();
+            }
+        }
+        return redirect()->back();
     }
 
     /**
@@ -95,6 +118,18 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        if ($book) {
+
+            if ($book->delete()) {
+                return response()->json([
+                'message' => 'Registro eliminado correctamente',
+                 'code' => '200'
+                ]);
+            }
+            return response()->json([
+                'message' => 'No se pudo eliminar el registro',
+                 'code' => '400'
+            ]);
+        }
     }
 }

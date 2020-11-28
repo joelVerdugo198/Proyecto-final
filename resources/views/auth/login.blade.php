@@ -1,9 +1,7 @@
 <x-guest-layout>
-
     <x-jet-authentication-card>
-
-         <x-slot name="logo">
-            
+        <x-slot name="logo">
+           
         </x-slot>
 
         <x-jet-validation-errors class="mb-4" />
@@ -14,12 +12,11 @@
             </div>
         @endif
 
-
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
             <div align="center">
-                <img src="/img/usuario.png" />
+                <img src="/img/usuario.png">
             </div>
 
             <div>
