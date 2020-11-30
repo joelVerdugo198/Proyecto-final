@@ -57,8 +57,12 @@
 
                         @endif
 
-                         <x-jet-dropdown-link href="{{ url('books') }}">
+                        <x-jet-dropdown-link href="{{ url('books') }}">
                             {{ __('Books') }}
+                        </x-jet-dropdown-link>
+
+                         <x-jet-dropdown-link href="{{ url('loans') }}">
+                            {{ __('Loans') }}
                         </x-jet-dropdown-link>
 
                         @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
