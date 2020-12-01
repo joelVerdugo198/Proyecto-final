@@ -51,8 +51,12 @@
 
                         @if(Auth::user()->hasPermissionTo('crud categories'))
 
-                         <x-jet-dropdown-link href="{{ url('categories') }}">
+                        <x-jet-dropdown-link href="{{ url('categories') }}">
                             {{ __('Categories') }}
+                        </x-jet-dropdown-link>
+
+                        <x-jet-dropdown-link href="{{ url('users') }}">
+                            {{ __('Users') }}
                         </x-jet-dropdown-link>
 
                         @endif

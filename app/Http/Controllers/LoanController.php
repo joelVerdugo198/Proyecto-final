@@ -57,13 +57,13 @@ class LoanController extends Controller
 
                 if ($loan->update($request->all())) {
                     return response()->json([
-                    'message' => "Successful delivery",
+                    'message' => "Successful loan",
                     'code' => "200"
                     ]);
                 }
             }
             return response()->json([
-            'message' => "Delivery error, contact the administrator.",
+            'message' => "Loan error, contact servicer",
             'code' => "400"
             ]);
         }

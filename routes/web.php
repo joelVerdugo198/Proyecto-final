@@ -37,7 +37,6 @@ Route::group(['middleware' => ['auth']],function(){
 
 	Route::post('/books', 'BookController@store');
 	
-
 	Route::put('/books', 'BookController@update');
 
 	Route::delete('/books/{book}', 'BookController@destroy');
@@ -55,12 +54,19 @@ Route::group(['middleware' => ['auth']],function(){
 	Route::get('/loans', 'LoanController@index');
 
 	Route::post('/loans', 'LoanController@store');
-	
-	//Route::put('/loans/{loan}', 'LoanController@update');
 
 	Route::put('/loans', 'LoanController@update');
 
 	Route::delete('/loans/{loan}', 'LoanController@destroy');
+
+	// USERS
+	Route::get('/users', 'UserController@index');
+
+	Route::post('/users', 'UserController@store');
+
+	Route::put('/users', 'UserController@update');
+
+	Route::delete('/users/{user}', 'UserController@destroy');
 
 });
 

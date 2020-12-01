@@ -25,7 +25,7 @@
         @if (isset($loans) && count($loans)>0)
           @foreach ($loans as $loan)
           
-
+            @if($loan->book_id == $book->id && $loan->status == 'return')
             <div class="card"    >
             <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
             
@@ -39,8 +39,7 @@
               <p class="card-text">Edition: {{ $book->edition }}</p>
               <p class="card-text">Autor: {{ $book->autor }}</p>
               <p class="card-text">Category: {{ $book->category_id }}</p>
-            
-            
+                        
               </div>      
 
               <div align="center" style="padding-bottom: 10px;">
@@ -65,6 +64,7 @@
 
               </div>
         </div> 
+        @endif
       @endforeach
       @endif               
       @endforeach 
