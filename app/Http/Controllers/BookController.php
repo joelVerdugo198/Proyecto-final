@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Loan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -20,8 +22,11 @@ class BookController extends Controller
 
         $books = Book::all();
         $categories = Category::all();
+        $loans = Loan::all();
+        $date = Carbon::now();
+        $cont = 0;
 
-        return view('books.index', compact('books', 'categories'));
+        return view('books.index', compact('books', 'categories','loans', 'date', 'cont'));
     }
 
     /**

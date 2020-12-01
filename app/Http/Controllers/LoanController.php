@@ -8,6 +8,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class LoanController extends Controller
 {
     /**
@@ -42,11 +44,30 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-         if ($loan = Loan::create($request->all())) {
+         if (Auth::user()->hasPermissionTo('crud categories')){
+            if ($loan = Loan::create($request->all())) {
 
             return redirect()->back()->with('success','El registro se creo correctamente');
+
+            
+            }
+            return redirect()->back()->with('error','No se pudo crear el registro');
+        }else{
+            if ($loan = Loan::create($request->all())) {
+
+                if ($loan->update($request->all())) {
+                    return response()->json([
+                    'message' => "Successful delivery",
+                    'code' => "200"
+                    ]);
+                }
+            }
+            return response()->json([
+            'message' => "Delivery error, contact the administrator.",
+            'code' => "400"
+            ]);
         }
-        return redirect()->back()->with('error','No se pudo crear el registro');
+         
     }
 
     /**

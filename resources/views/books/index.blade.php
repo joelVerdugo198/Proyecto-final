@@ -6,72 +6,27 @@
 		            {{ __('Books') }}
 		        </h2>
     		</div>
+        @if (Auth::user()->hasPermissionTo('add books'))
     		<div class="col-md-4 col-12">
     			<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addBookModal">
     				Add Book
     			</button> 			
     		</div>
+        @endif
     	</div>     
     </x-slot>
 
-    <!-- <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                
-            	
-
-          <table class="table table-striped table-bordered">
-				  <thead class="thead-dark">
-				    <tr>
-				      <th scope="col">#</th>
-				      <th scope="col">Title</th>
-				      <th scope="col">Description</th>
-				      <th scope="col">Category</th>
-               <th>Action</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				  	@if (isset($books) && count($books)>0)
-				  	@foreach($books as $book)
-				    <tr>
-				      <th scope="row">
-				      	{{ $book->id }}
-				      </th>
-				      <td>
-				      	{{ $book->title }}
-				      </td>
-				      <td>
-				      	{{ $book->description }}
-				      </td>
-				      <td>
-				      	{{ $book->category_id }}
-				      </td>
-              <td>
-                <button onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
-                 class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit Book</button>
-
-                <button onclick="removeBook({{ $book->id }},this)"
-                 class="btn btn-danger">Remove Book</button>
-              </td>
-
-				    </tr>
-				    
-				    @endforeach
-				    @endif
-				  </tbody>
-				</table>
-
-            </div>
-        </div>
-    </div> -->
-
   <div class="row" style="padding: 20px;">
     <div class="col-12">
-      <div class="card-deck mb-4">
+      <div class="card-deck mb-3">
+      
       @if (isset($books) && count($books)>0)
       @foreach ($books as $book)
+        @if (isset($loans) && count($loans)>0)
+          @foreach ($loans as $loan)
           
-            <div class="card" style="width: 18rem;" >
+
+            <div class="card"    >
             <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
             
             <div class="card-body">
@@ -82,23 +37,36 @@
               <p class="card-text">isbn: {{ $book->isbn }}</p>
               <p class="card-text">Editorial: {{ $book->editorial }}</p>
               <p class="card-text">Edition: {{ $book->edition }}</p>
+              <p class="card-text">Autor: {{ $book->autor }}</p>
               <p class="card-text">Category: {{ $book->category_id }}</p>
             
             
               </div>      
 
               <div align="center" style="padding-bottom: 10px;">
+
+                @php
+                  $user = auth()->user();
+                @endphp
+
+                <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
+                @if (Auth::user()->hasPermissionTo('update books'))
                 <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
-
-                 <button onclick="detailBook({{ $book->id }},this)"
+                  
+                 <button onclick="detailBook({{ $book->id }})"
                  class="btn btn-warning" data-toggle="modal" data-target="#detailBookModal">Detail</button>
-
+                               
+                @endif
+                  @if (Auth::user()->hasPermissionTo('delete books'))
                  <button onclick="removeBook({{ $book->id }},this)"
                  class="btn btn-danger">Remove</button>
+                 @endif
+
               </div>
-        </div>                    
-        
+        </div> 
+      @endforeach
+      @endif               
       @endforeach 
       @endif
       </div>
@@ -400,36 +368,39 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 
-              
-
           <table class="table table-striped table-bordered">
           <thead class="thead-dark">
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Loan date</th>
-              <th scope="col">Delivery date</th>
+              <th scope="col">return date</th>
               <th>Status</th>
             </tr>
           </thead>
           <tbody>
+
+            
+              
             <tr>
               <th scope="row">
-               
+                {{ $book->id }}
               </th>
               <td>
-              
+               
               </td>
               <td>
-                
-              <td>
                
+              <td>
+                
               </td>
               <td>
                 
               </td>
 
             </tr>
+            
+           
           </tbody>
         </table>
 
@@ -444,8 +415,6 @@
       <script type="text/javascript">
         function editBook(id,title,description,year,pages,isbn,editorial,edition,autor,cover,category_id)
         {
-
-
           $("#title").val(title)
           $("#description").val(description)
           $("#year").val(year)
@@ -459,11 +428,51 @@
           $("#id").val(id)
         }
 
+        function detailBook(id, loan_date)
+        {          
+          $("#id").val(id)
+        }
+
+        function addLoan(book_id, user_id, target) {
+                swal({
+                  title: "Are you sure?",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: false,
+                })
+                .then((willDelete) => {
+                  if (willDelete) {
+                    
+                  axios.post('/loans', {
+                  book_id: book_id,
+                  user_id: user_id
+                  
+              })
+              .then(function (response) {
+                        if (response.data.code == 200) {
+                            swal( response.data.message, {
+                              icon: "success",
+                            });
+                            
+                            $(target).parent().parent().remove();
+                            
+                        } else {
+                            swal( response.data.message, {
+                              icon: "error",
+                            });
+                        }
+                      })
+                      .catch(function (error) {
+                        
+                    });
+                  }
+                });      
+        }
+
         function removeBook(id, target)
         {
           swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this book!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -494,11 +503,6 @@
                   swal('Error ocurred',{ icon:'error'})
                 });
             }
-           
-              /*
-            } else {
-              swal("Your imaginary file is safe!");
-            }*/
           });
         }
       </script>   
