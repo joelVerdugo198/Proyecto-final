@@ -55,29 +55,13 @@
                 <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
 
-                 @php
+                
 
-                 $boolean = 0;
-
-                 @endphp
-
-                 @if(isset($loans) && count($loans)>0)
-                 @foreach($loans as $loan)
-                 @if($user->id == $loan->user_id && $boolean != $user->id)
-
-                 @php
-
-                 $boolean = $user->id;
-
-                 @endphp
-
-                 <button class="btn btn-primary" id="{{ $iduser = $user->id }}" data-toggle="modal" data-target="#recordUserModal">
+                 <a href="{{ url('/users/'.$user->id) }}" class="btn btn-primary" >
                   Record
-               </button>
+                  </a>
 
-                 @endif
-                 @endforeach
-                 @endif
+                 
 
                 <button onclick="removeUser({{ $user->id }},this)"
                  class="btn btn-danger">Remove</button>
@@ -235,74 +219,6 @@
       </div>
     </div>
   </div>
-
-  <div class="modal fade" id="recordUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Record user</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-
-      <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-
-              <table class="table table-striped table-bordered">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Book</th>
-              <th scope="col">loan</th>
-              <th scope="col">return</th>
-              <th scope="col">status</th>
-            </tr>
-          </thead>
-          <tbody>
-
-          @foreach($loans as $loan)
-            @if($iduser == $loan->user_id)
-              @foreach($books as $book)
-                @if($loan->book_id == $book->id)
-
-                  <tr>
-
-                    <th scope="row">
-                      <div id="id">{{ $iduser }}</div>
-                      
-                    </th>
-                    <td>
-                      {{ $book->title }}
-                    </td>
-                    <td>
-                      {{ $loan->loan_date }}
-                    </td>
-                     <td>
-                      {{ $loan->return_date }}
-                    </td>
-                    <td>
-                      {{ $loan->status }}
-                    
-                    </td>
-                    
-                  </tr>
-                @endif
-              @endforeach
-            @endif
-          @endforeach
-
-          </tbody>
-        </table>
-
-            </div>
-        </div>
-    </div>
-      </div>
-    </div>
-  </div>
-
 
     <x-slot name="scripts">
       <script type="text/javascript">
