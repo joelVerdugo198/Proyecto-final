@@ -20,13 +20,16 @@
     
         @if (isset($users) && count($users)>1)
         @foreach ($users as $user) 
+        @if (isset($loans) && count($loans)>0)
+        @foreach ($loans as $loan)  
         <table class="table table-striped table-bordered">
+        @if ($user->id == $loan->user_id)
           @if (Auth::user()->hasPermissionTo('view users'))
           <h3  style="padding-top: 20px">{{ $user->name }}</h3>
           @endif
+        @endif
            <div class="row row-cols-1 row-cols-md-3 card-deck">
-      	@if (isset($loans) && count($loans)>0)
-     	  @foreach ($loans as $loan)     
+      	   
 		    @if (isset($books) && count($books)>0)
 		    @foreach ($books as $book)
         @if (($loan->status)==('loan'))
@@ -63,7 +66,7 @@
           </div>
         </div>
         @elseif (($loan->user_id)==($currentuser->id))
-        <div class="col mb-4">
+        <div class="col mb-4" style="padding-top: 20px">
           <div class="card h-100" >
             <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
             <div class="card-body">
@@ -98,13 +101,12 @@
         
 		    @endforeach 
 		    @endif
+      </table>
         @endforeach 
 	      @endif
         @endforeach 
 	      @endif
-        </div>
-      </div>
-    </div>
+   
         
    <div class="modal fade" id="addLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-lg">

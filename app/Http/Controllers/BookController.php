@@ -75,9 +75,13 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        $loans = Loan::all();
-        $users = User::all();
-        return view('books.record', compact('book', 'loans','users'));
+        if (Auth::user()->hasPermissionTo('view users')) {
+            $loans = Loan::all();
+            $users = User::all();
+            return view('books.record', compact('book', 'loans','users'));
+        }else{
+             return redirect()->back()->with('error','Do not have permission');
+        }
     }
 
     /**
@@ -129,12 +133,12 @@ class BookController extends Controller
 
             if ($book->delete()) {
                 return response()->json([
-                'message' => 'Registro eliminado correctamente',
+                'message' => 'Record removed successfully',
                  'code' => '200'
                 ]);
             }
             return response()->json([
-                'message' => 'No se pudo eliminar el registro',
+                'message' => 'Could not delete the record',
                  'code' => '400'
             ]);
         }

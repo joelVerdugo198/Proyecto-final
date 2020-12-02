@@ -18,11 +18,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        $loans = Loan::all();
-        $books = Book::all();
-        $currentuser = auth()->user();
-        return view('users.index', compact('users','loans','books', 'currentuser'));
+        if (Auth::user()->hasPermissionTo('view users')) {
+            $users = User::all();
+            $loans = Loan::all();
+            $books = Book::all();
+            $currentuser = auth()->user();
+            return view('users.index', compact('users','loans','books', 'currentuser')) ;
+        }else{
+             return redirect()->back()->with('error','Do not have permission');
+        }
     }
 
     /**
@@ -58,9 +62,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $loans = Loan::all();
-        $books = Book::all();
-        return view('users.record', compact('user','loans', 'books'));
+        if (Auth::user()->hasPermissionTo('view users')) {
+            $loans = Loan::all();
+            $books = Book::all();
+            return view('users.record', compact('user','loans', 'books'));
+        }else{
+             return redirect()->back()->with('error','Do not have permission');
+        }
     }
 
     /**
