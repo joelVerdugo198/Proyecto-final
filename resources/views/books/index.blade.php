@@ -16,17 +16,64 @@
     	</div>     
     </x-slot>
 
+
   <div class="row" style="padding: 20px;">
     <div class="col-12">
       <div class="card-deck mb-3">
       
+
       @if (isset($books) && count($books)>0)
-      @foreach ($books as $book)
-        @if (isset($loans) && count($loans)>0)
-          @foreach ($loans as $loan)
-          
-            @if($loan->book_id == $book->id && $loan->status == 'return')
-            <div class="card"    >
+        @foreach ($books as $book)
+        @if (Auth::user()->hasPermissionTo('update books'))
+           <div class="card">
+            <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
+            
+            <div class="card-body">
+              <h5 class="card-title">{{ $book->title }}</h5>
+              <p class="card-text">Description: {{ $book->description }}</p>
+              <p class="card-text">Year: {{ $book->year }}</p>
+              <p class="card-text">Pages: {{ $book->pages }}</p>
+              <p class="card-text">isbn: {{ $book->isbn }}</p>
+              <p class="card-text">Editorial: {{ $book->editorial }}</p>
+              <p class="card-text">Edition: {{ $book->edition }}</p>
+              <p class="card-text">Autor: {{ $book->autor }}</p>
+              <p class="card-text">Category: {{ $book->category_id }}</p>
+                        
+              </div>      
+
+              <div align="center" style="padding-bottom: 10px;">
+
+                @php
+                  $user = auth()->user();
+                @endphp
+
+                @if (Auth::user()->hasPermissionTo('update books'))
+                <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
+                 class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
+                  
+                 <button onclick="detailBook({{ $book->id }})"
+                 class="btn btn-warning" data-toggle="modal" data-target="#detailBookModal">Detail</button>
+                               
+                @endif
+                  @if (Auth::user()->hasPermissionTo('delete books'))
+                 <button onclick="removeBook({{ $book->id }},this)"
+                 class="btn btn-danger">Remove</button>
+                 @endif
+
+              </div>
+              </div> 
+        @else
+          @if (isset($loans) && count($loans)>0)
+            @foreach ($loans as $loan)
+              @if($book->id == $loan->book_id && $loan->status == 'loan')
+                @php 
+                  $available = $book->id
+                @endphp
+              @endif
+            @endforeach
+            @if($book->id != $available) 
+
+            <div class="card">
             <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
             
             <div class="card-body">
@@ -63,12 +110,55 @@
                  @endif
 
               </div>
-        </div> 
+              </div> 
+            @endif
+            
+          @else
+          <div class="card">
+            <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
+            
+            <div class="card-body">
+              <h5 class="card-title">{{ $book->title }}</h5>
+              <p class="card-text">Description: {{ $book->description }}</p>
+              <p class="card-text">Year: {{ $book->year }}</p>
+              <p class="card-text">Pages: {{ $book->pages }}</p>
+              <p class="card-text">isbn: {{ $book->isbn }}</p>
+              <p class="card-text">Editorial: {{ $book->editorial }}</p>
+              <p class="card-text">Edition: {{ $book->edition }}</p>
+              <p class="card-text">Autor: {{ $book->autor }}</p>
+              <p class="card-text">Category: {{ $book->category_id }}</p>
+                        
+              </div>      
+
+              <div align="center" style="padding-bottom: 10px;">
+
+                @php
+                  $user = auth()->user();
+                @endphp
+
+                <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
+                @if (Auth::user()->hasPermissionTo('update books'))
+                <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
+                 class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
+                  
+                 <button onclick="detailBook({{ $book->id }})"
+                 class="btn btn-warning" data-toggle="modal" data-target="#detailBookModal">Detail</button>
+                               
+                @endif
+                  @if (Auth::user()->hasPermissionTo('delete books'))
+                 <button onclick="removeBook({{ $book->id }},this)"
+                 class="btn btn-danger">Remove</button>
+                 @endif
+
+              </div>
+              </div> 
+          @endif  
         @endif
-      @endforeach
-      @endif               
-      @endforeach 
+        @endforeach 
       @endif
+          
+                     
+      
       </div>
     </div>
   </div>

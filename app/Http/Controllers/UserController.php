@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Loan;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -17,7 +18,9 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('users.index', compact('users'));
+        $loans = Loan::all();
+        $boolean = 0;
+        return view('users.index', compact('users','loans', 'boolean'));
     }
 
     /**

@@ -25,8 +25,8 @@ class BookController extends Controller
         $loans = Loan::all();
         $date = Carbon::now();
         $cont = 0;
-
-        return view('books.index', compact('books', 'categories','loans', 'date', 'cont'));
+        $available = 0;
+        return view('books.index', compact('books', 'categories','loans', 'date', 'cont', 'available'));
     }
 
     /**

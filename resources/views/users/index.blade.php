@@ -55,7 +55,29 @@
                 <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
 
+                 <!-- @php
 
+                 $boolean = 0;
+
+                 @endphp
+
+                 @if(isset($loans) && count($loans)>0)
+                 @foreach($loans as $loan)
+                 @if($user->id == $loan->user_id && $boolean == 0)
+
+                 @php
+
+                 $boolean = 1;
+
+                 @endphp
+
+                 <button onclick="recordUser({{ $user->id }})"
+                 class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">Record</button>
+
+                 @endif
+                 @endforeach
+                 @endif
+ -->
                 <button onclick="removeUser({{ $user->id }},this)"
                  class="btn btn-danger">Remove</button>
               </td>
@@ -212,6 +234,97 @@
       </div>
     </div>
   </div>
+
+ <!--  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Record user</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+      <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
+              <table class="table table-striped table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book</th>
+              <th scope="col">loan</th>
+              <th scope="col">return</th>
+              <th scope="col">status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            @foreach($users as $user)
+
+            @if ($user->id != 1 )
+
+            <tr>
+
+              <th scope="row">
+
+                {{ $user->id }}
+              </th>
+              <td>
+                {{ $user->name }}
+              </td>
+              <td>
+                {{ $user->email }}
+              </td>
+               <td>
+                {{ $user->role_id }}
+              </td>
+              <td>
+
+                <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
+                 class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
+
+                 @php
+
+                 $boolean = 0;
+
+                 @endphp
+
+                 @if(isset($loans) && count($loans)>0)
+                 @foreach($loans as $loan)
+                 @if($user->id == $loan->user_id && $boolean == 0)
+
+                 @php
+
+                 $boolean = 1;
+
+                 @endphp
+
+                 <button onclick="recordUser({{ $user->id }},'{{ $loan->book_id }}','{{ $loan->loan_date }}','{{ $loan->return_date }}','{{ $loan->status }}')"
+                 class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">Record</button>
+
+                 @endif
+                 @endforeach
+                 @endif
+
+                <button onclick="removeUser({{ $user->id }},this)"
+                 class="btn btn-danger">Remove</button>
+              </td>
+              
+            </tr>
+            @endif
+            @endforeach
+            
+          </tbody>
+        </table>
+
+            </div>
+        </div>
+    </div>
+      </div>
+    </div>
+  </div> -->
 
 
     <x-slot name="scripts">

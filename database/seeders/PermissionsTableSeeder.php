@@ -21,7 +21,6 @@ class PermissionsTableSeeder extends Seeder
         $admin = Role::create(['name' => 'Admin']);
         $user = Role::create(['name' => 'User']);
 
-
         //categories
         Permission::create(['name' => 'crud categories']);
 
@@ -63,6 +62,7 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
          $user->givePermissionTo([
+
             'view books',
 
             'view loans',
