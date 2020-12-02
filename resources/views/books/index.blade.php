@@ -51,12 +51,14 @@
                     @endphp
 
                     @if (Auth::user()->hasPermissionTo('update books'))
+
                     <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
                      class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
-                      
-                     <button onclick="detailBook({{ $book->id }})"
-                     class="btn btn-warning" data-toggle="modal" data-target="#detailBookModal">Detail</button>
-                        
+
+                     <a href="{{ url('/books/'.$book->id) }}" class="btn btn-primary" >
+                    Record
+                    </a>
+                    
                     @else
 
                      <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>

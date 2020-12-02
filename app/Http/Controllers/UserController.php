@@ -22,9 +22,7 @@ class UserController extends Controller
         $loans = Loan::all();
         $books = Book::all();
         $currentuser = auth()->user();
-        $boolean = 0;
-        $iduser = 0;
-        return view('users.index', compact('users','loans','books', 'boolean', 'currentuser', 'iduser'));
+        return view('users.index', compact('users','loans','books', 'currentuser'));
     }
 
     /**

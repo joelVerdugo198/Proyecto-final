@@ -55,13 +55,9 @@
                 <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
 
-                
-
                  <a href="{{ url('/users/'.$user->id) }}" class="btn btn-primary" >
                   Record
                   </a>
-
-                 
 
                 <button onclick="removeUser({{ $user->id }},this)"
                  class="btn btn-danger">Remove</button>

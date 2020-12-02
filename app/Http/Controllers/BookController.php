@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\Loan;
 use Carbon\Carbon;
@@ -24,9 +25,8 @@ class BookController extends Controller
         $categories = Category::all();
         $loans = Loan::all();
         $date = Carbon::now();
-        $cont = 0;
         $available = 0;
-        return view('books.index', compact('books', 'categories','loans', 'date', 'cont', 'available'));
+        return view('books.index', compact('books', 'categories','loans', 'date', 'available'));
     }
 
     /**
@@ -75,7 +75,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        $loans = Loan::all();
+        $users = User::all();
+        return view('books.record', compact('book', 'loans','users'));
     }
 
     /**
