@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Loan;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -19,8 +20,11 @@ class UserController extends Controller
     {
         $users = User::all();
         $loans = Loan::all();
+        $books = Book::all();
+        $currentuser = auth()->user();
         $boolean = 0;
-        return view('users.index', compact('users','loans', 'boolean'));
+        $iduser = 0;
+        return view('users.index', compact('users','loans','books', 'boolean', 'currentuser', 'iduser'));
     }
 
     /**

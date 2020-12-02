@@ -33,7 +33,7 @@
 
             @foreach($users as $user)
 
-            @if ($user->id != 1 )
+            @if ($user->id != $currentuser->id )
 
             <tr>
 
@@ -55,7 +55,7 @@
                 <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
 
-                 <!-- @php
+                 @php
 
                  $boolean = 0;
 
@@ -63,21 +63,22 @@
 
                  @if(isset($loans) && count($loans)>0)
                  @foreach($loans as $loan)
-                 @if($user->id == $loan->user_id && $boolean == 0)
+                 @if($user->id == $loan->user_id && $boolean != $user->id)
 
                  @php
 
-                 $boolean = 1;
+                 $boolean = $user->id;
 
                  @endphp
 
-                 <button onclick="recordUser({{ $user->id }})"
-                 class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">Record</button>
+                 <button class="btn btn-primary" id="{{ $iduser = $user->id }}" data-toggle="modal" data-target="#recordUserModal">
+                  Record
+               </button>
 
                  @endif
                  @endforeach
                  @endif
- -->
+
                 <button onclick="removeUser({{ $user->id }},this)"
                  class="btn btn-danger">Remove</button>
               </td>
@@ -235,7 +236,7 @@
     </div>
   </div>
 
- <!--  <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="recordUserModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -261,61 +262,37 @@
           </thead>
           <tbody>
 
-            @foreach($users as $user)
+          @foreach($loans as $loan)
+            @if($iduser == $loan->user_id)
+              @foreach($books as $book)
+                @if($loan->book_id == $book->id)
 
-            @if ($user->id != 1 )
+                  <tr>
 
-            <tr>
-
-              <th scope="row">
-
-                {{ $user->id }}
-              </th>
-              <td>
-                {{ $user->name }}
-              </td>
-              <td>
-                {{ $user->email }}
-              </td>
-               <td>
-                {{ $user->role_id }}
-              </td>
-              <td>
-
-                <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
-                 class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
-
-                 @php
-
-                 $boolean = 0;
-
-                 @endphp
-
-                 @if(isset($loans) && count($loans)>0)
-                 @foreach($loans as $loan)
-                 @if($user->id == $loan->user_id && $boolean == 0)
-
-                 @php
-
-                 $boolean = 1;
-
-                 @endphp
-
-                 <button onclick="recordUser({{ $user->id }},'{{ $loan->book_id }}','{{ $loan->loan_date }}','{{ $loan->return_date }}','{{ $loan->status }}')"
-                 class="btn btn-primary" data-toggle="modal" data-target="#editUserModal">Record</button>
-
-                 @endif
-                 @endforeach
-                 @endif
-
-                <button onclick="removeUser({{ $user->id }},this)"
-                 class="btn btn-danger">Remove</button>
-              </td>
-              
-            </tr>
+                    <th scope="row">
+                      <div id="id">{{ $iduser }}</div>
+                      
+                    </th>
+                    <td>
+                      {{ $book->title }}
+                    </td>
+                    <td>
+                      {{ $loan->loan_date }}
+                    </td>
+                     <td>
+                      {{ $loan->return_date }}
+                    </td>
+                    <td>
+                      {{ $loan->status }}
+                    
+                    </td>
+                    
+                  </tr>
+                @endif
+              @endforeach
             @endif
-            @endforeach
-            
+          @endforeach
+
           </tbody>
         </table>
 
@@ -324,7 +301,7 @@
     </div>
       </div>
     </div>
-  </div> -->
+  </div>
 
 
     <x-slot name="scripts">

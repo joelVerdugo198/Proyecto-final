@@ -23,7 +23,8 @@ class LoanController extends Controller
         $books = Book::all();
         $users = User::all();
         $date = Carbon::now();
-        return view('loans.index', compact('loans','books','users', 'date'));
+        $currentuser = auth()->user();
+        return view('loans.index', compact('loans','books','users', 'date', 'currentuser'));
     }
 
     /**
