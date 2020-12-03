@@ -24,7 +24,7 @@ class CategoryController extends Controller
             return view('categories.index', compact('categories'));
             
         }else{
-            return redirect()->back()->with('error','No tiene permiso');
+            return redirect()->back()->with('error','Do not have permission');
         }
 
         
@@ -50,9 +50,9 @@ class CategoryController extends Controller
     {
         if ($category = Category::create($request->all())) {
 
-            return redirect()->back()->with('success','El registro se creo correctamente');
+            return redirect()->back()->with('success','The record was created successfully');
         }
-        return redirect()->back()->with('error','No se pudo crear el registro');
+        return redirect()->back()->with('error','The record could not be created');
     }
 
     /**
@@ -107,12 +107,12 @@ class CategoryController extends Controller
 
             if ($category->delete()) {
                 return response()->json([
-                'message' => 'Registro eliminado correctamente',
+                'message' => 'Record removed successfully',
                  'code' => '200'
                 ]);
             }
             return response()->json([
-                'message' => 'No se pudo eliminar el registro',
+                'message' => 'Could not delete the record',
                  'code' => '400'
             ]);
         }

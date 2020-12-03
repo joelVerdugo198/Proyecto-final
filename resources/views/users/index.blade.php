@@ -98,7 +98,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="text" name="name" class="form-control" placeholder="Name" aria-label="name" aria-describedby="basic-addon1">
+                            <input type="text" name="name" required="" class="form-control" placeholder="Name" aria-label="name" aria-describedby="basic-addon1">
                         </div>                          
           </div>
 
@@ -108,7 +108,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="text" name="email" class="form-control" placeholder="correo@hotmail.com" aria-label="email" aria-describedby="basic-addon1">
+                            <input type="text" name="email" required="" class="form-control" placeholder="correo@hotmail.com" aria-label="email" aria-describedby="basic-addon1">
                         </div>                          
           </div>
 
@@ -118,7 +118,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="password" name="password" class="form-control" placeholder="*********" aria-label="email" aria-describedby="basic-addon1">
+                            <input type="password" name="password" required="" class="form-control" placeholder="*********" aria-label="email" aria-describedby="basic-addon1">
                         </div>                          
           </div>
 
@@ -170,7 +170,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="text" name="name" class="form-control" placeholder="Name" aria-label="name" id="name" aria-describedby="basic-addon1">
+                            <input type="text" name="name" required="" class="form-control" placeholder="Name" aria-label="name" id="name" aria-describedby="basic-addon1">
                         </div>                          
           </div>
 
@@ -180,7 +180,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">@</span>
                             </div>
-                            <input type="text" id="email" name="email" class="form-control" placeholder="correo@hotmail.com" aria-label="email" aria-describedby="basic-addon1">
+                            <input type="text" id="email" name="email" required="" class="form-control" placeholder="correo@hotmail.com" aria-label="email" aria-describedby="basic-addon1">
                         </div>                          
           </div>
 
