@@ -1,17 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
-    	<div class="row">
-    		<div class="col-md-8 col-12">
-    			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-		            {{ __('Users') }}
-		        </h2>
-    		</div>
+      <div class="row">
+        <div class="col-md-8 col-12">
+          <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Users') }}
+            </h2>
+        </div>
         <div class="col-md-4 col-12">
           <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addUserModal">
             Add User
           </button>       
         </div>
-    	</div>     
+      </div>     
     </x-slot>
 
     <div class="py-12">
@@ -48,7 +48,11 @@
                 {{ $user->email }}
               </td>
                <td>
-                {{ $user->role_id }}
+                @if($user->role_id == 1)
+                Admin
+                @else
+                User
+                @endif
               </td>
               <td>
 
@@ -126,10 +130,11 @@
                             </div>
                             <select class="form-control" name="role_id">
                              
-
-                              <option value="{{ $user->role_id == 1 }}"> Admi </option>
-                              <option value="{{ $user->role_id == 2 }}"> User </option>
-
+                             
+                              <option value="{{ 1 }}"> Admin </option>
+                              
+                              <option value="{{ 2}}"> User </option>
+                                                   
                               
                             </select>
                           </div>                          
@@ -198,8 +203,8 @@
                             <select class="form-control" name="role_id" id="role_id">
                              
 
-                              <option value="{{ $user->role_id == 1 }}"> Admi </option>
-                              <option value="{{ $user->role_id == 2 }}"> User </option>
+                              <option value="{{  1 }}"> Admi </option>
+                              <option value="{{  2 }}"> User </option>
 
                               
                             </select>
@@ -218,17 +223,13 @@
 
     <x-slot name="scripts">
       <script type="text/javascript">
-
         function editUser(id, name, email, password, role_id){
-
           $("#name").val(name)
           $("#email").val(email)
           $("#password").val(password)
           $("#role_id").val(role_id)
           $("#id").val(id)
-
         }
-
         function removeUser(id, target)
         {
           swal({
@@ -249,9 +250,7 @@
                     swal(response.data.message, {
                       icon: "success",
                     });
-
                     $(target).parent().parent().remove();
-
                   }else{
                     swal(response.data.message, {
                       icon: "error",
@@ -263,7 +262,6 @@
                   swal('Error: You have outstanding loans',{ icon:'error'})
                 });
             }
-
           });
         }
       </script>   

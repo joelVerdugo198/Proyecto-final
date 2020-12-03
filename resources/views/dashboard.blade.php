@@ -5,11 +5,61 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-jet-welcome />
-            </div>
-        </div>
-    </div>
+    <div id="dashboard-loan" style="padding-top: 20px"></div>
+
+    <script  src="https://code.highcharts.com/highcharts.js"></script>
+    <script >
+        var datas = <?php echo json_encode($datasUser) ?> 
+
+        Highcharts.chart('dashboard-loan', {
+            title: {
+                text: "Loans of the current year"
+            },
+            subtitle: {
+                text: "Loans of the current year"
+            },
+            xAxis: {
+                categories: ['January','February','March','May', 'June','July','August','September','October','November','December']
+            },
+            yAxis: {
+                title: {
+                    text: 'Number of loans'
+                } 
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+            plotOptions: {
+                series: {
+                    allowPointSelect: true
+                }
+            },
+            series: [{
+                name:'Loan',
+                data: datas
+            }],
+            responsive: {
+                rules: [
+                {
+                    condition: {
+                        maxwidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'right',
+                        }
+                    }
+                }
+            ]
+            }
+
+
+        })
+    </script>
+
+
+    
 </x-app-layout>

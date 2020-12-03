@@ -21,7 +21,7 @@
       @if (isset($categories) && count($categories)>0)
         @foreach ($categories as $category) 
         <table class="table table-striped table-bordered">
-          <h3  style="padding-top: 20px">{{ $category->name }}</h3>
+          <h4  style="padding-top: 20px">{{ $category->name }}</h4>
            <div class="row row-cols-1 row-cols-md-3 card-deck">
           @if (isset($books) && count($books)>0)
             @foreach ($books as $book)
