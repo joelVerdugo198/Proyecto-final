@@ -38,11 +38,12 @@ class UserController extends Controller
      */
     public function dashboard()
     {
-        if (Auth::user()->hasPermissionTo('view users')) {
             
-            $dashboardUser = User::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
+           $dashboardUser = User::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
 
             $dashboardMonthUser = User::select (DB::raw("Month(created_at) as month"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('month');
+
+            $datasUser = array(0,0,0,0,0,0,0,0,0,0,0,0);
 
             $dashboardLoan = Loan::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
 
@@ -50,21 +51,18 @@ class UserController extends Controller
 
             $datasLoan = array(0,0,0,0,0,0,0,0,0,0,0,0);
 
-            $datasUser = array(0,0,0,0,0,0,0,0,0,0,0,0);
+                  foreach ($dashboardMonthUser as $dashboard => $month) {
+                $datasUser[$month] = $dashboardUser[$dashboard];
+            }
 
             foreach ($dashboardMonthLoan as $dashboard => $month) {
                 $datasLoan[$month] = $dashboardLoan[$dashboard];
             }
 
-            foreach ($dashboardMonthUser as $dashboard => $month) {
-                $datasUser[$month] = $dashboardUser[$dashboard];
-            }
+            
+            return view('dashboard', compact('datasLoan','datasUser')) ;
 
-            return view('dashboard', compact('datasLoan', 'datasUser')) ;
-
-        }else{
-             return redirect()->back()->with('error','Do not have permission');
-        }
+   
     }
 
     /**
@@ -126,10 +124,6 @@ class UserController extends Controller
         $user = User::find($request->id);
         if ($user) {
             if ($user->update($request->all())) {
-
-                $user->password = Hash::make($request['password']);
-
-                $user->save();
 
                 return redirect()->back()->with('success','User updated successfully');
             }

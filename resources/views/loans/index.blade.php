@@ -25,7 +25,7 @@
         <table class="table table-striped table-bordered">
         @if ($user->id == $loan->user_id)
           @if (Auth::user()->hasPermissionTo('view users'))
-          <h4  style="padding-top: 10px">{{ $user->name }}</h4>
+          <h4  style="padding-top: 10px;" >{{ $user->name }}</h4>
           @endif
         @endif
            <div class="row row-cols-1 row-cols-md-3 card-deck">

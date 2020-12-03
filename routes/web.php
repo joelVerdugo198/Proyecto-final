@@ -26,8 +26,7 @@ Route::get('/suma/{num1}/{num2}', 'WebController@suma');
 
 })->where('num1','[0-9]+')->where('num2','[0-9]+');*/
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', 'UserController@dashboard')->name('dashboard')->middleware('permission:crud categories');
-
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', 'UserController@dashboard')->name('dashboard');
 
 Route::group(['middleware' => ['auth']],function(){
 

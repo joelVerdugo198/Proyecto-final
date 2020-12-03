@@ -56,7 +56,7 @@
               </td>
               <td>
 
-                <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->password }}','{{ $user->role_id }}')"
+                <button onclick="editUser({{ $user->id }},'{{ $user->name }}','{{ $user->email }}','{{ $user->role_id }}')"
                  class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">Edit</button>
 
                  <a href="{{ url('/users/'.$user->id) }}" class="btn btn-primary" >
@@ -185,16 +185,6 @@
           </div>
 
           <div class="form-group">
-                        <label for="exampleInputEmail1">Password</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">@</span>
-                            </div>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="*********" aria-label="email" aria-describedby="basic-addon1">
-                        </div>                          
-          </div>
-
-          <div class="form-group">
                         <label for="exampleInputEmail1">Role</label>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -223,10 +213,9 @@
 
     <x-slot name="scripts">
       <script type="text/javascript">
-        function editUser(id, name, email, password, role_id){
+        function editUser(id, name, email, role_id){
           $("#name").val(name)
           $("#email").val(email)
-          $("#password").val(password)
           $("#role_id").val(role_id)
           $("#id").val(id)
         }
