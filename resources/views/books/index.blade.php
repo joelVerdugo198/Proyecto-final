@@ -621,6 +621,7 @@
           })
           .then((willDelete) => {
             if (willDelete) {
+
               axios.delete('{{ url('books') }}/'+id, {
                   id: id,
                   _token: '{{ csrf_token() }}'
@@ -644,6 +645,8 @@
                   console.log(error);
                   swal('Error: You have loans ',{ icon:'error'})
                 });
+
+                
             }
           });
         }
