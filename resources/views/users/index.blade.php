@@ -248,7 +248,7 @@
                 })
                 .catch(function (error) {
                   console.log(error);
-                  swal('Error: You have outstanding loans',{ icon:'error'})
+                  swal('Error: You have loans',{ icon:'error'})
                 });
             }
           });

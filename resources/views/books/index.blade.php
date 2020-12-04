@@ -73,8 +73,27 @@
 
                     @if (Auth::user()->hasPermissionTo('update books'))
 
+                     @if (isset($loans) && count($loans)>0)
+                      @foreach ($loans as $loan)
+                        @if($book->id == $loan->book_id && $loan->status == 'loan')
+                          @php 
+                            $available = $book->id
+                          @endphp
+                        @endif
+                      @endforeach
+                      @if($book->id != $available)
+
                     <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
                      class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
+
+                     @endif 
+
+                     @else
+
+                     <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
+                     class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
+
+                     @endif 
 
                      <a href="{{ url('/books/'.$book->id) }}" class="btn btn-primary" >
                     Record
@@ -144,6 +163,49 @@
                   </div>
                   </div> 
                 @endif
+
+                @else
+
+                <div class="col mb-4">
+                <div class="card h-100">
+                <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
+                
+                <div class="card-body">
+                  <h5 class="card-title">{{ $book->title }}</h5>
+                  <p class="card-text">Description: {{ $book->description }}</p>
+                  <p class="card-text">Year: {{ $book->year }}</p>
+                  <p class="card-text">Pages: {{ $book->pages }}</p>
+                  <p class="card-text">isbn: {{ $book->isbn }}</p>
+                  <p class="card-text">Editorial: {{ $book->editorial }}</p>
+                  <p class="card-text">Edition: {{ $book->edition }}</p>
+                  <p class="card-text">Autor: {{ $book->autor }}</p>
+                  <p class="card-text">Category: {{ $book->category_id }}</p>                        
+                </div>      
+
+                  <div align="center" style="padding-bottom: 10px;">
+
+                    @php
+                      $user = auth()->user();
+                    @endphp
+
+                    <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
+                    @if (Auth::user()->hasPermissionTo('update books'))
+                    <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
+                     class="btn btn-warning" data-toggle="modal" data-target="#editBookModal">Edit</button>
+                      
+                     <button onclick="detailBook({{ $book->id }})"
+                     class="btn btn-warning" data-toggle="modal" data-target="#detailBookModal">Detail</button>
+
+                    @endif
+                      @if (Auth::user()->hasPermissionTo('delete books'))
+                     <button onclick="removeBook({{ $book->id }},this)"
+                     class="btn btn-danger">Remove</button>
+                     @endif
+
+                  </div>
+                  </div>
+                  </div> 
+
                 @endif
             @endif
             @endif
@@ -525,8 +587,16 @@
                             swal( response.data.message, {
                               icon: "success",
                             });
+
+                            @if (Auth::user()->hasPermissionTo('update books'))
                             
                             $(target).remove();
+
+                            @else 
+
+                             $(target).parent().parent().remove();
+
+                            @endif
                             
                         } else {
                             swal( response.data.message, {
@@ -572,7 +642,7 @@
                 })
                 .catch(function (error) {
                   console.log(error);
-                  swal('Error ocurred',{ icon:'error'})
+                  swal('Error: You have loans ',{ icon:'error'})
                 });
             }
           });

@@ -9,7 +9,7 @@
 		"editorial" : "PLANETA",
 		"edition" : 1,
 		"autor" : "EDITH EGER",
-		"cover" : "libro1.png",
+		"cover" : "defaultBook.jpg",
 		"category_id" : 1
 	},
 	{
@@ -21,7 +21,7 @@
 		"editorial" : "PLANETA",
 		"edition" : 1,
 		"autor" : "EDITH EGER",
-		"cover" : "libro2.png",
+		"cover" : "defaultBook.jpg",
 		"category_id" : 2
 	},
 	{
@@ -33,7 +33,43 @@
 		"editorial" : "PLANETA",
 		"edition" : 1,
 		"autor" : "EDITH EGER",
-		"cover" : "libro3.png",
+		"cover" : "defaultBook.jpg",
+		"category_id" : 3
+	}, 
+	{
+		"title" : "LIBRO 4",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "6070749045",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "defaultBook.jpg",
+		"category_id" : 1
+	},
+	{
+		"title" : "LIBRO 5",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "6012755007",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "defaultBook.jpg",
+		"category_id" : 2
+	},
+	{
+		"title" : "LIBRO 6",
+		"description" : "un libro sobrecogedor",
+		"year" : 2018,
+		"pages" : 416,
+		"isbn" : "60701452008",
+		"editorial" : "PLANETA",
+		"edition" : 1,
+		"autor" : "EDITH EGER",
+		"cover" : "defaultBook.jpg",
 		"category_id" : 3
 	}
 
