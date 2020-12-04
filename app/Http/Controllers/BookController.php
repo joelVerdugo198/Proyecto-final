@@ -54,9 +54,10 @@ class BookController extends Controller
                     $file = $request->file('cover');
                     $fileName = 'book_cover'.$book->id.'.'.$file->getClientOriginalExtension();
                     $path = $request->file('cover')->storeAs('img/books',$fileName);
+                    $book->cover = $fileName;
+                    $book->save();
                 }
-                $book->cover = $fileName;
-                $book->save();
+                
                 return redirect()->back()->with('success', 'The record was created successfully');
             }
         
