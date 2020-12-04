@@ -36,35 +36,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dashboard()
-    {
-            
-           $dashboardUser = User::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
-
-            $dashboardMonthUser = User::select (DB::raw("Month(created_at) as month"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('month');
-
-            $datasUser = array(0,0,0,0,0,0,0,0,0,0,0,0);
-
-            $dashboardLoan = Loan::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
-
-            $dashboardMonthLoan = Loan::select (DB::raw("Month(created_at) as month"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('month');
-
-            $datasLoan = array(0,0,0,0,0,0,0,0,0,0,0,0);
-
-                  foreach ($dashboardMonthUser as $dashboard => $month) {
-                $datasUser[$month] = $dashboardUser[$dashboard];
-            }
-
-            foreach ($dashboardMonthLoan as $dashboard => $month) {
-                $datasLoan[$month] = $dashboardLoan[$dashboard];
-            }
-
-            
-            return view('dashboard', compact('datasLoan','datasUser')) ;
-
-   
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      *

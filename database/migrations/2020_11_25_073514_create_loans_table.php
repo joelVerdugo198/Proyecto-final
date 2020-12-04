@@ -19,7 +19,7 @@ class CreateLoansTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('book_id')->nullable();
             $table->foreign('book_id')->references('id')->on('books');
-            $table->date('loan_date')->default(\Carbon\Carbon::now());
+            $table->date('loan_date')->default(\Carbon\Carbon::now()->timezone('America/Hermosillo'));
             $table->date('return_date')->nullable();
             $table->string('status')->default('loan');
             $table->timestamps();

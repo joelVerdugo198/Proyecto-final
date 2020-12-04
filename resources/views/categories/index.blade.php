@@ -194,7 +194,7 @@
 							  })
 							  .catch(function (error) {
 							    console.log(error);
-							    swal('Error ocurred',{ icon:'error'})
+							    swal('Error: you have books in this category',{ icon:'error'})
 							  });
 						}
 					 

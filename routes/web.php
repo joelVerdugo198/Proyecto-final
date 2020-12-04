@@ -26,9 +26,10 @@ Route::get('/suma/{num1}/{num2}', 'WebController@suma');
 
 })->where('num1','[0-9]+')->where('num2','[0-9]+');*/
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', 'UserController@dashboard')->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', 'LoanController@dashboard')->name('dashboard');
 
-Route::group(['middleware' => ['auth']],function(){
+
+	Route::group(['middleware' => ['auth']],function(){
 
 	//BOOKS
 	Route::get('/books', 'BookController@index');

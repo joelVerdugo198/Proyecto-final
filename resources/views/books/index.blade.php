@@ -26,7 +26,7 @@
           @if (isset($books) && count($books)>0)
             @foreach ($books as $book)
             @if($category->id == $book->category_id)
-            @if (Auth::user()->hasPermissionTo('update books') || isset($loans) && count($loans)>0 )
+            @if (Auth::user()->hasPermissionTo('update books'))
             <div class="col mb-4">
                <div class="card h-100">
                 <img  src="{{ asset('img/books/' .$book->cover) }}" class="card-img-top p-2" alt="...">
@@ -49,6 +49,28 @@
                       $user = auth()->user();
                     @endphp
 
+                    @if (isset($loans) && count($loans)>0)
+                      @foreach ($loans as $loan)
+                        @if($book->id == $loan->book_id && $loan->status == 'loan')
+                          @php 
+                            $available = $book->id
+                          @endphp
+                        @endif
+                      @endforeach
+                      @if($book->id != $available) 
+
+                     <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
+
+                      @endif 
+
+                    @else
+
+                    <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
+
+                    @endif
+
+                    
+
                     @if (Auth::user()->hasPermissionTo('update books'))
 
                     <button  onclick="editBook({{ $book->id }},'{{ $book->title }}','{{ $book->description }}','{{ $book->year }}','{{ $book->pages }}','{{ $book->isbn }}','{{ $book->editorial }}','{{ $book->edition }}','{{ $book->autor }}','{{ $book->cover }}','{{ $book->category_id }}')"
@@ -58,11 +80,9 @@
                     Record
                     </a>
                     
-                    @else
-
-                     <button  onclick="addLoan({{ $book->id }},{{ $user->id }},this)" class="btn btn-primary">Loan Book</button>
-
                     @endif
+
+
                       @if (Auth::user()->hasPermissionTo('delete books'))
                      <button onclick="removeBook({{ $book->id }},this)"
                      class="btn btn-danger">Remove</button>
@@ -72,7 +92,10 @@
                   </div>
                   </div> 
             @else
-              
+              @php 
+                      $available = 0
+              @endphp
+              @if (isset($loans) && count($loans)>0)
                 @foreach ($loans as $loan)
                   @if($book->id == $loan->book_id && $loan->status == 'loan')
                     @php 
@@ -120,6 +143,7 @@
                   </div>
                   </div>
                   </div> 
+                @endif
                 @endif
             @endif
             @endif
@@ -502,7 +526,7 @@
                               icon: "success",
                             });
                             
-                            $(target).parent().parent().remove();
+                            $(target).remove();
                             
                         } else {
                             swal( response.data.message, {

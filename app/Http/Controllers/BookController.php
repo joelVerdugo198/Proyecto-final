@@ -57,10 +57,10 @@ class BookController extends Controller
                 }
                 $book->cover = $fileName;
                 $book->save();
-                return redirect()->back();
+                return redirect()->back()->with('success', 'The record was created successfully');
             }
         
-            return  redirect()->back()->with('error', 'No tiene permiso');
+            return  redirect()->back()->with('error', 'Do not have permission');
         
 
        
@@ -115,10 +115,10 @@ class BookController extends Controller
                 }
                
                 $book->save();
-                return redirect()->back();
+                return redirect()->back()->with('success', 'The record was updated successfully');
             }
         }
-        return redirect()->back();
+        return redirect()->back()->with('error','Could not update the record');;
     }
 
     /**

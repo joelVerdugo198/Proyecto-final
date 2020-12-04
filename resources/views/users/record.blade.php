@@ -35,7 +35,7 @@
 
                     <th scope="row">
                       
-                      {{ $user->id }}
+                      {{ $book->id }}
                       
                     </th>
                     <td>

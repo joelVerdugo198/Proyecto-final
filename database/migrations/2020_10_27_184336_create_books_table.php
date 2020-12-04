@@ -27,7 +27,7 @@ class CreateBooksTable extends Migration
             $table->integer('edition')->default(1);
             $table->string('autor');
 
-            $table->string('cover')->default('book.png');
+            $table->string('cover')->default('defaultBook.jpg');
 
             $table->unsignedBigInteger('category_id')->nullable();
 

@@ -6,13 +6,7 @@
 		            {{ __('Loans') }}
 		        </h2>
     		</div>
-        @if (Auth::user()->hasPermissionTo('crud categories'))
-    		<div class="col-md-4 col-12">
-    			<button class="btn btn-primary float-right" data-toggle="modal" data-target="#addLoanModal">
-    				Add Loan
-    			</button> 			
-    		</div>
-        @endif
+        
     	</div>     
     </x-slot>
 
@@ -20,16 +14,14 @@
     
         @if (isset($users) && count($users)>1)
         @foreach ($users as $user) 
+        <table class="table table-striped table-bordered">
+          @if (Auth::user()->hasPermissionTo('view users'))
+          <h4>{{ $user->name }}</h4>
+          @endif
+          <div class="row row-cols-1 row-cols-md-3 card-deck">
         @if (isset($loans) && count($loans)>0)
         @foreach ($loans as $loan)  
-        <table class="table table-striped table-bordered">
-        @if ($user->id == $loan->user_id)
-          @if (Auth::user()->hasPermissionTo('view users'))
-          <h4  style="padding-top: 10px;" >{{ $user->name }}</h4>
-          @endif
-        @endif
-           <div class="row row-cols-1 row-cols-md-3 card-deck">
-      	   
+   
 		    @if (isset($books) && count($books)>0)
 		    @foreach ($books as $book)
         @if (($loan->status)==('loan'))
@@ -101,72 +93,16 @@
         
 		    @endforeach 
 		    @endif
-      </table>
+      
         @endforeach 
 	      @endif
+        </div>
+      </table>
         @endforeach 
 	      @endif
    
         
-   <div class="modal fade" id="addLoanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog modal-lg">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Add new Loan</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-
-	      <form method="POST" action="{{ url('loans') }}">
-	      	@csrf
-	      	<div class="modal-body">
-
-	      		 <div class="form-group">
-                        <label for="exampleInputEmail1">Cliente</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">@</span>
-                            </div>
-                            <select class="form-control" name="user_id">
-                              @if (isset($users) && count($users)>0)
-                              @foreach ($users as $user)
-
-                              <option value="{{ $user->id }}"> {{ $user->name }}</option>
-
-                              @endforeach
-                              @endif
-                            </select>
-                          </div>                          
-                      </div>
-	        	
-	      		 <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="basic-addon1">@</span>
-                    </div>
-                    <select class="form-control" name="book_id">
-                              @if (isset($books) && count($books)>0)
-                              @foreach ($books as $book)
-
-                              <option value="{{ $book->id }}"> {{ $book->title }}</option>
-
-                              @endforeach
-                              @endif
-                    </select>
-                  </div>                          
-            </div>
-           
-	      </div>
-	      <div class="modal-footer">
-	        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-	        <button type="submit" class="btn btn-primary">Save</button>
-	      </div>
-	      </form>
-	    </div>
-	  </div>
-	</div>
+   
 
   <x-slot name="scripts">
       <script type="text/javascript">

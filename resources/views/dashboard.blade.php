@@ -65,11 +65,7 @@
     @else
   
    <img src="/img/bienvenido.jpg"  style="width: 100%; height: 100%; background-repeat: no-repeat; background-position: center center;  background-attachment: fixed; background-size: cover; ">
-   
 
     @endif
-    
-
-
    
 </x-app-layout>

@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use Auth;
 
@@ -22,9 +23,10 @@ class LoanController extends Controller
         $loans = Loan::all();
         $books = Book::all();
         $users = User::all();
-        $date = Carbon::now();
+        $date = Carbon::now()->timezone('America/Hermosillo');
         $currentuser = auth()->user();
-        return view('loans.index', compact('loans','books','users', 'date', 'currentuser'));
+        $available = 0;
+        return view('loans.index', compact('loans','books','users', 'date', 'currentuser', 'available'));
     }
 
     /**
@@ -32,10 +34,23 @@ class LoanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+        public function dashboard()
     {
-        //
+            
+            $dashboardLoan = Loan::select (DB::raw("COUNT(*) as count"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('count');
+
+            $dashboardMonthLoan = Loan::select (DB::raw("Month(created_at) as month"))->whereYear('created_at', date('Y'))->groupBy(DB::raw("Month(created_at)"))->pluck('month');
+
+            $datasLoan = array(0,0,0,0,0,0,0,0,0,0,0,0);
+
+            foreach ($dashboardMonthLoan as $dashboard => $month) {
+                $datasLoan[$month] = $dashboardLoan[$dashboard];
+            }
+
+            
+            return view('dashboard', compact('datasLoan')) ;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -45,15 +60,7 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-         if (Auth::user()->hasPermissionTo('crud categories')){
-            if ($loan = Loan::create($request->all())) {
-
-            return redirect()->back()->with('success','El registro se creo correctamente');
-
-            
-            }
-            return redirect()->back()->with('error','No se pudo crear el registro');
-        }else{
+         
             if ($loan = Loan::create($request->all())) {
 
                 if ($loan->update($request->all())) {
@@ -67,7 +74,7 @@ class LoanController extends Controller
             'message' => "Loan error, contact servicer",
             'code' => "400"
             ]);
-        }
+        
          
     }
 

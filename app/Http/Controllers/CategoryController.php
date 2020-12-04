@@ -89,10 +89,10 @@ class CategoryController extends Controller
         $category = Category::find($request->id);
         if ($category) {
             if ($category->update($request->all())) {
-                return redirect()->back();
+                return redirect()->back()->with('success','The record was updated successfully');;
             }
         }
-        return redirect()->back();
+        return redirect()->back()->with('error','Could not update the record');;
     }
 
     /**
